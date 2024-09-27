@@ -14,7 +14,9 @@ interface ComposeHtmlGeneratorExtension {
 
     val outputPath: Property<String>
 
-    val excludeSuffix: ListProperty<String>
+    val excludeSuffixForFunctions: ListProperty<String>
+
+    val excludeSuffixForClasses: ListProperty<String>
 
     val hideComposableWithNoParams: Property<Boolean>
 
@@ -29,7 +31,8 @@ interface ComposeHtmlGeneratorExtension {
             outputPath.set("${project.getDirPath()}-compose-metric-reporter")
             toolbarTitle.set("")
             projectName.set(project.getDirPath())
-            excludeSuffix.set(listOf())
+            excludeSuffixForFunctions.set(listOf())
+            excludeSuffixForClasses.set(listOf())
             hideComposableWithNoParams.set(false)
         }
 

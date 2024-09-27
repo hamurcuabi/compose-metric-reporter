@@ -10,11 +10,10 @@ A plugin to generates HTML report from raw Compose metrics.
 
 ```
  [versions]
- plugin_compose_metric_reporter = "0.0.2"
+ plugin_compose_metric_reporter = "0.0.3"
 
  [plugins]
- 
-composeMetricReporter = { id = "io.gitlab.hamurcuabi.compose.metric.reporter.plugin", version.ref = "plugin_compose_metric_reporter" }
+ composeMetricReporter = { id = "io.gitlab.hamurcuabi.compose.metric.reporter.plugin", version.ref = "plugin_compose_metric_reporter" }
 ```
 
 2. Go to module that you want to create compose report
@@ -34,10 +33,11 @@ plugins {
     
 }
 
-composeReportGenerator {
+composeReporter {
     toolbarTitle = "Compose Toolbar title"
     outputPath = "compose-report"
-    excludeSuffix = listOf("Preview")
+    excludeSuffixForFunctions = listOf("Preview")
+    excludeSuffixForClasses = listOf("Activity")
     hideComposableWithNoParams = true
 }
 

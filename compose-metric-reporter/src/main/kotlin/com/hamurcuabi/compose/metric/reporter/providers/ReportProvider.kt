@@ -8,6 +8,7 @@ import com.hamurcuabi.compose.metric.reporter.parser.ComposableReportParser
 import com.hamurcuabi.compose.metric.reporter.parser.DetailedStatisticsCsvReporter
 import com.hamurcuabi.compose.metric.reporter.parser.OverallStatisticsReporter
 import kotlin.collections.any
+import kotlin.collections.filterNot
 
 
 class ReportProvider(
@@ -51,15 +52,25 @@ class ReportProvider(
         } else list
     }
 
-    fun getStableClassesReport(): List<ClassDetail> {
+    fun getStableClassesReport(
+        excludeSuffix: List<String>
+    ): List<ClassDetail> {
         return ClassReportParser.parse(contentProvider.classesReportContents)
             .stableClasses
+            .filterNot { item ->
+                excludeSuffix.any { item.className.contains(it) }
+            }
 
     }
 
-    fun getUnStableClassesReport(): List<ClassDetail> {
+    fun getUnStableClassesReport(
+        excludeSuffix: List<String>
+    ): List<ClassDetail> {
         return ClassReportParser.parse(contentProvider.classesReportContents)
             .unstableClasses
+            .filterNot { item ->
+                excludeSuffix.any { item.className.contains(it) }
+            }
     }
 }
 

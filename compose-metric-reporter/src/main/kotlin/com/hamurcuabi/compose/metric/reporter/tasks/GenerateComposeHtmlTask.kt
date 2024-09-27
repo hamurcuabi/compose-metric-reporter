@@ -3,6 +3,7 @@ package com.hamurcuabi.compose.metric.reporter.tasks
 import com.hamurcuabi.compose.metric.reporter.model.classes.ClassDetail
 import com.hamurcuabi.compose.metric.reporter.model.common.Stability
 import com.hamurcuabi.compose.metric.reporter.model.composables.ComposableDetail
+import com.hamurcuabi.compose.metric.reporter.model.details.DetailedStatistics
 import com.hamurcuabi.compose.metric.reporter.providers.ContentProvider
 import com.hamurcuabi.compose.metric.reporter.providers.ReportProvider
 import com.hamurcuabi.compose.metric.reporter.util.CSS
@@ -19,6 +20,9 @@ import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import java.io.File
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.iterator
 
 @CacheableTask
 abstract class GenerateComposeHtmlTask : DefaultTask() {
@@ -36,7 +40,10 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
     abstract val hideComposableWithNoParams: Property<Boolean>
 
     @get:Input
-    abstract val excludeSuffix: ListProperty<String>
+    abstract val excludeSuffixForFunctions: ListProperty<String>
+
+    @get:Input
+    abstract val excludeSuffixForClasses: ListProperty<String>
 
     @get:Input
     abstract val variantName: Property<String>
@@ -60,20 +67,28 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
         val report = ReportProvider(provider)
         val stableComposables = report.getStableComposablesReport(
             hideComposableWithNoParams = hideComposableWithNoParams.get(),
-            excludeSuffix = excludeSuffix.get()
+            excludeSuffix = excludeSuffixForClasses.get()
         )
 
         val unstableComposables = report.getUnstableComposablesReport(
             hideComposableWithNoParams = hideComposableWithNoParams.get(),
-            excludeSuffix = excludeSuffix.get()
+            excludeSuffix = excludeSuffixForFunctions.get()
         )
 
-        val stableClasses = report.getStableClassesReport()
+        val stableClasses = report.getStableClassesReport(
+            excludeSuffix = excludeSuffixForClasses.get()
+        )
 
-        val unStableClasses = report.getUnStableClassesReport()
+        val unStableClasses = report.getUnStableClassesReport(
+            excludeSuffix = excludeSuffixForClasses.get()
+        )
 
         val overallStatistics = createOverallHtml(
             report.getOverallStatistics()
+        )
+
+        val detailedStatistics = createDetailedStatisticHtml(
+            report.getDetailedStatistics()
         )
 
         val fullContent = generateIndexHtml(
@@ -85,12 +100,51 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
             stableClassesCount = stableClasses.count().toString(),
             unStableClasses = createClassesHtml(unStableClasses, "usc"),
             unStableClassesCount = unStableClasses.count().toString(),
-            overallStatistics = overallStatistics
+            overallStatistics = overallStatistics,
+            detailedStatistics = detailedStatistics,
         )
         file.writeText(fullContent)
 
         copyFileToOutput(CSS, CSS_FILE_NAME)
         copyFileToOutput(SCRIPTS, SCRIPTS_FILE_NAME)
+    }
+
+    private fun createDetailedStatisticHtml(statistics: DetailedStatistics): String {
+        return buildString {
+            val id = "statistics"
+            val cardColor = "cardGreen"
+            val sectionId = "section-class-${id}"
+
+            append("<div class='$cardColor'>\n")
+            append("<div class='card-header' onclick=\"toggleSection('$sectionId')\">\n")
+            append("<span>Detailed Statistic</span>\n")
+            append("<i id='$sectionId-icon' class='collapse-icon fas fa-chevron-down'></i>\n")
+            append("</div>\n")
+            append("<div id='$sectionId' class='collapsed-content'>\n")
+            append("<div class='table-statistic-container'>\n")
+            append("<table>\n")
+            append("<tr>\n")
+
+            statistics.headers.forEach { item ->
+                append("<th>${item}</th>\n")
+
+            }
+            append("</tr>\n")
+
+
+            statistics.items.forEach { item ->
+                append("<tr>\n")
+                item.detailItem.map { it.value }.forEach { value ->
+                    append("<td>$value</td>\n")
+                }
+                append("</tr>\n")
+            }
+
+            append("</table>\n")
+            append("</div>\n")
+            append("</div>\n")
+            append("</div>\n")
+        }
     }
 
     private fun escapeHtml(text: String): String {
@@ -110,7 +164,8 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
         stableClassesCount: String,
         unStableClasses: String,
         unStableClassesCount: String,
-        overallStatistics: String
+        overallStatistics: String,
+        detailedStatistics: String,
     ): String {
         val header = """
              <html>
@@ -126,8 +181,8 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
              <body class="light-mode">
             <div class="toolbar">
             <div class='toolbar-status-container'>
-                <span class='status toolbar-status'>${projectName.get()}</span>
-                <span class='status toolbar-status'>${variantName.get()}</span>
+                <span class='status toolbar-status-project'>${projectName.get()}</span>
+                <span class='status toolbar-status-variant'>${variantName.get()}</span>
                  </div>
                 <div class="toolbar-buttons">
                     <button onclick="toggleDarkMode()">
@@ -190,6 +245,7 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
             """.trimIndent()
             )
             append(overallStatistics)
+            append(detailedStatistics)
             append("</details>")
             append(footer)
         }
@@ -318,7 +374,7 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
                     item.classDetailFields.forEachIndexed { paramIndex, param ->
                         append("<tr>\n")
                         append("<td>${paramIndex + 1}</td>\n")
-                        when (Stability.Companion.fromValue(param.status)) {
+                        when (Stability.fromValue(param.status)) {
                             Stability.STABLE -> append("<td class='condition-stable'>STABLE</td>\n")
                             Stability.UNSTABLE -> append("<td class='condition-unstable'>UNSTABLE</td>\n")
                             Stability.MISSING -> append("<td class='condition-missing'>MISSING</td>\n")
@@ -352,6 +408,5 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
         }
         file.writeText(code)
     }
-
 }
 

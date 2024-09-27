@@ -12,7 +12,7 @@ internal class ComposeReporterPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
 
-        val extension = ComposeHtmlGeneratorExtension.Companion.create(project)
+        val extension = ComposeHtmlGeneratorExtension.create(project)
 
         with(project) {
             val android =

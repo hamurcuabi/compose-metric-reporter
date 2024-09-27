@@ -165,6 +165,7 @@ val CSS = """
         display: flex;
         align-items: center;
         margin: 10px;
+        overflow-x: auto;
     }
     .status-container {
         display: flex;
@@ -204,15 +205,35 @@ val CSS = """
        padding: 5px 10px;
        margin: 10px;
     }
+    
+    .toolbar-status-project {
+       background-color: #ecffee;
+       color: #0277BD;
+       border: 2px solid #4FC3F7;
+       border-radius: 8px;
+       padding: 5px 10px;
+       margin: 10px;
+    }
+    
+    .toolbar-status-variant {
+       background-color: #ecffee;
+       color: #0277BD;
+       border: 2px solid #4FC3F7;
+       border-radius: 8px;
+       padding: 5px 10px;
+       margin: 10px;
+    }
 
     /* Region: Table Styles */
     .table-container {
         margin-top: 10px;
+        overflow-x: auto;
     }
     
      .table-statistic-container {
         margin-top: 10px;
         margin-left: 10px;
+        overflow-x: auto;
     }
 
     table {
@@ -238,6 +259,7 @@ val CSS = """
      tr:hover {
          background-color: #FFCDD2;
       }
+      
 
     /* Region: Condition Styles */
     .condition-stable {
@@ -265,6 +287,13 @@ val CSS = """
     .parameter-container {
         flex: 1;
         padding: 6px;
+    }
+    
+    
+     @media (max-width: 768px) {
+        th, td {
+            white-space: nowrap;
+        }
     }
 
 """.trimIndent()

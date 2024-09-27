@@ -45,9 +45,10 @@ fun Project.registerComposeCompilerWithVariant(
     return tasks.register(taskName, GenerateComposeHtmlTask::class.java) {
         variantName.set(variant)
         outputPath.set("${getDirPath()}-${reportExtension.outputPath.get()}")
-        projectName.set(getDirPath())
+        projectName.set(getProjectName())
         toolbarTitle.set(reportExtension.toolbarTitle)
-        excludeSuffix.set(reportExtension.excludeSuffix.get())
+        excludeSuffixForFunctions.set(reportExtension.excludeSuffixForFunctions.get())
+        excludeSuffixForClasses.set(reportExtension.excludeSuffixForClasses.get())
         hideComposableWithNoParams.set(reportExtension.hideComposableWithNoParams.get())
         group = TASK_GROUP
         description = "Generate Compose Compiler Metrics and Report for $descSuffix"
@@ -56,6 +57,9 @@ fun Project.registerComposeCompilerWithVariant(
 
 fun Project.getDirPath() =
     project.projectDir.relativeTo(rootProject.projectDir).path.replace("/", "_")
+
+fun Project.getProjectName() =
+    project.projectDir.relativeTo(rootProject.projectDir).path.replace("/", ":")
 
 fun Project.getAssembleDirPath() =
     project.projectDir.relativeTo(rootProject.projectDir).path.replace("/", ":")
