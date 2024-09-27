@@ -2,8 +2,9 @@ package com.hamurcuabi.compose.metric.reporter.util
 
 import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.variant.AndroidComponentsExtension
-import com.hamurcuabi.compose.metric.reporter.tasks.GenerateHtmlTask
-import com.hamurcuabi.compose.metric.reporter.tasks.HtmlGeneratorExtension
+import com.hamurcuabi.compose.metric.reporter.tasks.ComposeHtmlGeneratorExtension
+import com.hamurcuabi.compose.metric.reporter.tasks.GenerateComposeHtmlTask
+import com.hamurcuabi.compose.metric.reporter.util.Constants.TASK_GROUP
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.support.uppercaseFirstChar
@@ -20,12 +21,14 @@ fun Project.configureKotlinAndroidComposeCompilerReports(android: AndroidCompone
         }
     }
     android.onVariants { variant ->
-        val taskName = project.name + "_" + variant.name + "MetricReporter"
+        val taskName =
+            getDirPath() + "_" + variant.name + "MetricReporter"
         val descSuffix = "'${variant.name}' variant in Android project"
 
-        registerComposeCompilerWithVariant(taskName, descSuffix,variant.name)
+        registerComposeCompilerWithVariant(taskName, descSuffix, variant.name)
 
-        val build = ":${project.name}:assemble${variant.name.uppercaseFirstChar()}"
+        val build =
+            ":${getAssembleDirPath()}:assemble${variant.name.uppercaseFirstChar()}"
         tasks.getByName(taskName) {
             dependsOn(build)
         }
@@ -37,19 +40,26 @@ fun Project.registerComposeCompilerWithVariant(
     taskName: String,
     descSuffix: String,
     variant: String,
-): TaskProvider<GenerateHtmlTask> {
-    val reportExtension = HtmlGeneratorExtension.Companion.get(project)
-    return tasks.register(taskName, GenerateHtmlTask::class.java) {
+): TaskProvider<GenerateComposeHtmlTask> {
+    val reportExtension = ComposeHtmlGeneratorExtension.get(project)
+    return tasks.register(taskName, GenerateComposeHtmlTask::class.java) {
         variantName.set(variant)
-        outputPath.set("${project.name}-${reportExtension.outputPath.get()}")
-        projectName.set(project.name)
+        outputPath.set("${getDirPath()}-${reportExtension.outputPath.get()}")
+        projectName.set(getDirPath())
         toolbarTitle.set(reportExtension.toolbarTitle)
         excludeSuffix.set(reportExtension.excludeSuffix.get())
         hideComposableWithNoParams.set(reportExtension.hideComposableWithNoParams.get())
-        group = Constants.TASK_GROUP
+        group = TASK_GROUP
         description = "Generate Compose Compiler Metrics and Report for $descSuffix"
     }
 }
+
+fun Project.getDirPath() =
+    project.projectDir.relativeTo(rootProject.projectDir).path.replace("/", "_")
+
+fun Project.getAssembleDirPath() =
+    project.projectDir.relativeTo(rootProject.projectDir).path.replace("/", ":")
+
 
 
 

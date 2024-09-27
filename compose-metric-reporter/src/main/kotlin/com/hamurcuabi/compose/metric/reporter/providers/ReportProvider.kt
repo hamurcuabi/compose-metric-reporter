@@ -1,7 +1,6 @@
 package com.hamurcuabi.compose.metric.reporter.providers
 
 import com.hamurcuabi.compose.metric.reporter.model.classes.ClassDetail
-import com.hamurcuabi.compose.metric.reporter.model.common.Stability
 import com.hamurcuabi.compose.metric.reporter.model.composables.ComposableDetail
 import com.hamurcuabi.compose.metric.reporter.model.details.DetailedStatistics
 import com.hamurcuabi.compose.metric.reporter.parser.ClassReportParser
@@ -55,6 +54,7 @@ class ReportProvider(
     fun getStableClassesReport(): List<ClassDetail> {
         return ClassReportParser.parse(contentProvider.classesReportContents)
             .stableClasses
+
     }
 
     fun getUnStableClassesReport(): List<ClassDetail> {
@@ -62,3 +62,4 @@ class ReportProvider(
             .unstableClasses
     }
 }
+

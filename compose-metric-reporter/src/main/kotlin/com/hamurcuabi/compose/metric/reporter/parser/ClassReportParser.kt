@@ -5,7 +5,7 @@ import com.hamurcuabi.compose.metric.reporter.model.classes.ClassDetailField
 import com.hamurcuabi.compose.metric.reporter.model.classes.ClassesReport
 import com.hamurcuabi.compose.metric.reporter.model.common.RawContent
 import com.hamurcuabi.compose.metric.reporter.model.common.Stability
-import com.hamurcuabi.compose.metric.reporter.util.Constants
+import com.hamurcuabi.compose.metric.reporter.util.Constants.NEW_LINE
 import com.hamurcuabi.compose.metric.reporter.util.ParsingException
 
 object ClassReportParser {
@@ -31,7 +31,7 @@ object ClassReportParser {
 
     internal fun getClasses(content: String): List<String> {
         val lines = content
-            .split(Constants.NEW_LINE)
+            .split(NEW_LINE)
             .filter { it.isNotBlank() }
 
         val classIndexes =
@@ -48,7 +48,7 @@ object ClassReportParser {
                 fromIndex = item,
                 toIndex = classIndexes
                     .getOrElse(index + 1) { lines.size }
-            ).joinToString(separator = Constants.NEW_LINE)
+            ).joinToString(separator = NEW_LINE)
         }
     }
 
@@ -63,14 +63,14 @@ object ClassReportParser {
 
         val stability = classDetail
             .getOrNull(1)
-            ?.let { Stability.Companion.fromValue(it) }
+            ?.let { Stability.fromValue(it) }
             ?: error("Undefined stability status for the class body: $classBody")
 
         val runtimeStability = REGEX_RUNTIME_STABILITY
             .find(classBody)
             ?.groupValues
             ?.getOrNull(1)
-            ?.let { Stability.Companion.fromValue(it) }
+            ?.let { Stability.fromValue(it) }
 
         val fields = REGEX_CLASS_FIELDS
             .findAll(classBody)

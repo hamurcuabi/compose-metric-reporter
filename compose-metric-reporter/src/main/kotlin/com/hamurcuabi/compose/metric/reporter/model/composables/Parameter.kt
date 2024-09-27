@@ -2,7 +2,7 @@ package com.hamurcuabi.compose.metric.reporter.model.composables
 
 import com.hamurcuabi.compose.metric.reporter.model.common.CommonDetail
 import com.hamurcuabi.compose.metric.reporter.model.common.Stability
-import com.hamurcuabi.compose.metric.reporter.util.Constants
+import com.hamurcuabi.compose.metric.reporter.util.Constants.COLON
 
 data class Parameter(
     val stability: Stability,
@@ -10,7 +10,7 @@ data class Parameter(
 ) {
 
     private val commonDetail by lazy {
-        details.split(Constants.COLON).map { it.trim() }.let { (name, type) ->
+        details.split(COLON).map { it.trim() }.let { (name, type) ->
             CommonDetail(
                 name = name,
                 type = type

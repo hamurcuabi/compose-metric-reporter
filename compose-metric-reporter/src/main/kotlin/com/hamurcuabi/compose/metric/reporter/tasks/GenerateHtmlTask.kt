@@ -7,7 +7,9 @@ import com.hamurcuabi.compose.metric.reporter.providers.ContentProvider
 import com.hamurcuabi.compose.metric.reporter.providers.ReportProvider
 import com.hamurcuabi.compose.metric.reporter.util.CSS
 import com.hamurcuabi.compose.metric.reporter.util.CSS_FILE_NAME
-import com.hamurcuabi.compose.metric.reporter.util.Constants
+import com.hamurcuabi.compose.metric.reporter.util.Constants.COMPOSE_METRICS_PATH
+import com.hamurcuabi.compose.metric.reporter.util.Constants.INDEX_HTML
+import com.hamurcuabi.compose.metric.reporter.util.Constants.SLASH
 import com.hamurcuabi.compose.metric.reporter.util.SCRIPTS
 import com.hamurcuabi.compose.metric.reporter.util.SCRIPTS_FILE_NAME
 import org.gradle.api.DefaultTask
@@ -19,7 +21,7 @@ import org.gradle.api.tasks.TaskAction
 import java.io.File
 
 @CacheableTask
-abstract class GenerateHtmlTask : DefaultTask() {
+abstract class GenerateComposeHtmlTask : DefaultTask() {
 
     @get:Input
     abstract val toolbarTitle: Property<String>
@@ -43,16 +45,16 @@ abstract class GenerateHtmlTask : DefaultTask() {
     fun generate() {
         val dir = project.layout.buildDirectory.asFile.get().absolutePath
 
-        val outputDirectory = File(dir + Constants.SLASH + outputPath.get())
+        val outputDirectory = File(dir + SLASH + outputPath.get())
 
         if (!outputDirectory.exists()) {
             outputDirectory.mkdirs()
         }
-        val file = File(outputDirectory, Constants.INDEX_HTML)
+        val file = File(outputDirectory, INDEX_HTML)
         if (!file.exists()) {
             file.createNewFile()
         }
-        val directory = File(dir + Constants.SLASH + Constants.COMPOSE_METRICS_PATH)
+        val directory = File(dir + SLASH + COMPOSE_METRICS_PATH)
 
         val provider = ContentProvider(directory = directory, variantName = variantName.get())
         val report = ReportProvider(provider)
@@ -339,7 +341,7 @@ abstract class GenerateHtmlTask : DefaultTask() {
     private fun copyFileToOutput(code: String, fileName: String) {
         val dir = project.layout.buildDirectory.asFile.get().absolutePath
 
-        val outputDirectory = File(dir + Constants.SLASH + outputPath.get())
+        val outputDirectory = File(dir + SLASH + outputPath.get())
 
         if (!outputDirectory.exists()) {
             outputDirectory.mkdirs()

@@ -66,7 +66,7 @@ object ComposableReportParser {
                 .filter { it.isNotEmpty() }
                 .map {
                     Parameter(
-                        stability = Stability.Companion.fromValue(it[1]),
+                        stability = Stability.fromValue(it[1]),
                         details = it[2]
                     )
                 }.toList()

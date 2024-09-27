@@ -3,7 +3,7 @@ package com.hamurcuabi.compose.metric.reporter.parser
 import com.hamurcuabi.compose.metric.reporter.model.details.DetailItem
 import com.hamurcuabi.compose.metric.reporter.model.details.DetailRowItems
 import com.hamurcuabi.compose.metric.reporter.model.details.DetailedStatistics
-import com.hamurcuabi.compose.metric.reporter.util.Constants
+import com.hamurcuabi.compose.metric.reporter.util.Constants.COMMA
 
 object DetailedStatisticsCsvReporter {
 
@@ -30,6 +30,6 @@ object DetailedStatisticsCsvReporter {
     }
 
     private fun splitWithCsvSeparator(content: String) =
-        content.split(Constants.COMMA).filter { it.isNotBlank() }
+        content.split(COMMA).filter { it.isNotBlank() }
 
 }

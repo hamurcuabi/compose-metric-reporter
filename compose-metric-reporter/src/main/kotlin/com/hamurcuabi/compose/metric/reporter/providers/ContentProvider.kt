@@ -1,6 +1,7 @@
 package com.hamurcuabi.compose.metric.reporter.providers
 
-import com.hamurcuabi.compose.metric.reporter.util.Constants
+import com.hamurcuabi.compose.metric.reporter.util.Constants.FileSuffixes
+import com.hamurcuabi.compose.metric.reporter.util.Constants.NEW_LINE
 import java.io.File
 
 class ContentProvider(
@@ -18,11 +19,11 @@ class ContentProvider(
 
     val composablesReportContents: String
         get() = findComposablesReportTxtFile()
-            .joinToString(separator = Constants.NEW_LINE) { it.readText() }
+            .joinToString(separator = NEW_LINE) { it.readText() }
 
     val classesReportContents: String
         get() = findClassesReportTxtFile()
-            .joinToString(separator = Constants.NEW_LINE) { it.readText() }
+            .joinToString(separator = NEW_LINE) { it.readText() }
 
     private val allFiles =
         directory
@@ -31,18 +32,18 @@ class ContentProvider(
             ?: emptyList()
 
     private fun findBriefStatisticsJsonFile(): List<File> {
-        return allFiles.filter { it.name.endsWith(variantName + Constants.FileSuffixes.MODULE_REPORT_JSON) }
+        return allFiles.filter { it.name.endsWith(variantName + FileSuffixes.MODULE_REPORT_JSON) }
     }
 
     private fun findDetailsStatisticsCsvFile(): List<File> {
-        return allFiles.filter { it.name.endsWith(variantName + Constants.FileSuffixes.COMPOSABLES_STATS_METRICS_CSV) }
+        return allFiles.filter { it.name.endsWith(variantName + FileSuffixes.COMPOSABLES_STATS_METRICS_CSV) }
     }
 
     private fun findComposablesReportTxtFile(): List<File> {
-        return allFiles.filter { it.name.endsWith(variantName + Constants.FileSuffixes.COMPOSABLES_REPORT_TXT) }
+        return allFiles.filter { it.name.endsWith(variantName + FileSuffixes.COMPOSABLES_REPORT_TXT) }
     }
 
     private fun findClassesReportTxtFile(): List<File> {
-        return allFiles.filter { it.name.endsWith(variantName + Constants.FileSuffixes.CLASSES_REPORT_TXT) }
+        return allFiles.filter { it.name.endsWith(variantName + FileSuffixes.CLASSES_REPORT_TXT) }
     }
 }
