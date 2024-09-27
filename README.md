@@ -5,9 +5,9 @@ A plugin to generates HTML report from raw Compose metrics.
 ## Usage
 
 
-1. Go to your `toml` file add these with latest version
+1. Go to your `toml` file add below
 
-
+![Install](https://img.shields.io/badge/Maven-0.0.3-blue.svg)
 ```
  [versions]
  plugin_compose_metric_reporter = "0.0.3"
@@ -43,7 +43,7 @@ composeReporter {
 
 ```
 
-3. Run `./gradlew tasks`, You will see
+3. Run `./gradlew tasks`, You will see some tasks with each variant like below
 
 
 ```
@@ -52,19 +52,16 @@ Compose Metric Reporter tasks
 presentation_developmentDebugMetricReporter - Generate Compose Compiler Metrics and Report for 'developmentDebug' variant in Android project
 presentation_developmentReleaseMetricReporter - Generate Compose Compiler Metrics and Report for 'developmentRelease' variant in Android project
 presentation_pilotDebugMetricReporter - Generate Compose Compiler Metrics and Report for 'pilotDebug' variant in Android project
+....
 ```
 Chose one of them and run it.
 
 `./gradlew presentation_developmentDebugMetricReporter`
 
-You can see metrics and reports generated under build folder.
+You can see metrics and reports generated under build folder ends with `<project-name>-compose-report`.
+Open `index.html` file with your browser
 
 
-
-## 💬 Discuss?
-
-Have any questions, doubts or want to present your opinions, views? You're always welcome. You
-can [start discussions](https://github.com/hamurcuabi/compose-metric-reporter/discussions).
 
 ## License
 
