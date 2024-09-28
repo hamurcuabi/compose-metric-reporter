@@ -61,7 +61,10 @@ Chose one of them and run it.
 You can see metrics and reports generated under build folder ends with `<project-name>-compose-report`.
 Open `index.html` file with your browser
 
-https://github.com/user-attachments/assets/77d54886-461b-4725-b572-77509ac59cd9
+
+https://github.com/user-attachments/assets/d2e813ad-2a6b-4161-8d8d-92bcf10af605
+
+
 
 
 
