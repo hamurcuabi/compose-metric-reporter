@@ -10,4 +10,3 @@ data class ClassDetail(
     val classDetailFields: List<ClassDetailField>,
     val rawContent: RawContent,
 )
-

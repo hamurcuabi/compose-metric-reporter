@@ -14,6 +14,7 @@ plugins {
     `maven-publish`
     alias(libs.plugins.gradle.plugin.publish)
     alias(libs.plugins.mavenPublish)
+    alias(libs.plugins.detekt)
 }
 
 java {
@@ -33,7 +34,14 @@ dependencies {
     compileOnly(kotlin("stdlib"))
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
+    detektPlugins(libs.detekt.formatting)
     implementation(libs.kotlinx.serialization.json)
+}
+
+detekt {
+    config = files("detekt-config.yml")
+    buildUponDefaultConfig = true
+    autoCorrect = true
 }
 
 tasks {

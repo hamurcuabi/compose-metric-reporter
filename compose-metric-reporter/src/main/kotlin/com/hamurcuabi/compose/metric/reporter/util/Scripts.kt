@@ -1,6 +1,6 @@
 package com.hamurcuabi.compose.metric.reporter.util
 
-const val SCRIPTS_FILE_NAME="scripts.js"
+const val SCRIPTS_FILE_NAME = "scripts.js"
 
 val SCRIPTS = """
 function toggleSection(id) {

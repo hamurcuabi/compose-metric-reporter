@@ -11,8 +11,7 @@ import kotlin.jvm.java
 internal class ComposeReporterPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
-
-        val extension = ComposeHtmlGeneratorExtension.create(project)
+        ComposeHtmlGeneratorExtension.create(project)
 
         with(project) {
             val android =
@@ -27,4 +26,3 @@ internal class ComposeReporterPlugin : Plugin<Project> {
         }
     }
 }
-

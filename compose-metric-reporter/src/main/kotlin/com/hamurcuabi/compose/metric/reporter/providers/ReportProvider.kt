@@ -10,7 +10,6 @@ import com.hamurcuabi.compose.metric.reporter.parser.OverallStatisticsReporter
 import kotlin.collections.any
 import kotlin.collections.filterNot
 
-
 class ReportProvider(
     private val contentProvider: ContentProvider,
 ) {
@@ -34,7 +33,9 @@ class ReportProvider(
             }
         return if (hideComposableWithNoParams) {
             list.filter { it.params.isNotEmpty() }
-        } else list
+        } else {
+            list
+        }
     }
 
     fun getUnstableComposablesReport(
@@ -49,7 +50,9 @@ class ReportProvider(
             }
         return if (hideComposableWithNoParams) {
             list.filter { it.params.isNotEmpty() }
-        } else list
+        } else {
+            list
+        }
     }
 
     fun getStableClassesReport(
@@ -60,7 +63,6 @@ class ReportProvider(
             .filterNot { item ->
                 excludeSuffix.any { item.className.contains(it) }
             }
-
     }
 
     fun getUnStableClassesReport(
@@ -73,4 +75,3 @@ class ReportProvider(
             }
     }
 }
-

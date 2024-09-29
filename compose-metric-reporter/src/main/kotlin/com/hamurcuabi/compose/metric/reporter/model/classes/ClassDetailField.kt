@@ -1,7 +1,7 @@
 package com.hamurcuabi.compose.metric.reporter.model.classes
 
-import com.hamurcuabi.compose.metric.reporter.util.Constants.COLON
 import com.hamurcuabi.compose.metric.reporter.model.common.CommonDetail
+import com.hamurcuabi.compose.metric.reporter.util.Constants.COLON
 
 data class ClassDetailField(
     val status: String,

@@ -10,4 +10,3 @@ data class ComposableDetail(
     val params: List<Parameter>,
     val rawContent: RawContent,
 )
-

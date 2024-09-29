@@ -1,5 +1,6 @@
 [versions]
 agp = "8.5.2"
+detektFormatting = "1.22.0"
 kotlin = "2.0.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -13,9 +14,11 @@ gradleNexus = "1.1.0"
 serialization = "1.7.1"
 gradlePluginPublish = "1.2.1"
 mavenPublish = "0.29.0"
+detekt = "1.22.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detektFormatting" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -43,5 +46,6 @@ gradle-nexus = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "gr
 
 gradle-plugin-publish = { id = "com.gradle.plugin-publish", version.ref = "gradlePluginPublish" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 
 

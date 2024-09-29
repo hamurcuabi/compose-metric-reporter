@@ -7,7 +7,6 @@ import com.hamurcuabi.compose.metric.reporter.model.composables.ComposablesRepor
 import com.hamurcuabi.compose.metric.reporter.model.composables.Parameter
 import com.hamurcuabi.compose.metric.reporter.util.ParsingException
 
-
 object ComposableReportParser {
     private const val INLINE = "inline"
     private const val RESTARTABLE = "restartable"

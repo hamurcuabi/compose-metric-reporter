@@ -15,12 +15,14 @@ object DetailedStatisticsCsvReporter {
                 detailedStatisticsCsvRows.subList(1, detailedStatisticsCsvRows.size)
                     .map { splitWithCsvSeparator(it) }
                     .map { items ->
-                        DetailRowItems(items.mapIndexed { index, value ->
-                            DetailItem(
-                                headers[index],
-                                value
-                            )
-                        })
+                        DetailRowItems(
+                            items.mapIndexed { index, value ->
+                                DetailItem(
+                                    headers[index],
+                                    value
+                                )
+                            }
+                        )
                     }
             } else {
                 emptyList()
@@ -31,5 +33,4 @@ object DetailedStatisticsCsvReporter {
 
     private fun splitWithCsvSeparator(content: String) =
         content.split(COMMA).filter { it.isNotBlank() }
-
 }

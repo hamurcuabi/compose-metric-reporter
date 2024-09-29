@@ -113,7 +113,7 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
         return buildString {
             val id = "statistics"
             val cardColor = "cardGreen"
-            val sectionId = "section-class-${id}"
+            val sectionId = "section-class-$id"
 
             append("<div class='$cardColor'>\n")
             append("<div class='card-header' onclick=\"toggleSection('$sectionId')\">\n")
@@ -126,11 +126,9 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
             append("<tr>\n")
 
             statistics.headers.forEach { item ->
-                append("<th>${item}</th>\n")
-
+                append("<th>$item</th>\n")
             }
             append("</tr>\n")
-
 
             statistics.items.forEach { item ->
                 append("<tr>\n")
@@ -155,6 +153,7 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
             .replace(">", "&gt;")
     }
 
+    @Suppress("LongParameterList")
     private fun generateIndexHtml(
         stableComposables: String,
         stableComposablesCount: String,
@@ -169,15 +168,17 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
     ): String {
         val header = """
              <html>
-            <head><meta charset="utf-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1">
-                <title>${toolbarTitle.get()}</title>
-                <link rel="stylesheet" href="$CSS_FILE_NAME">
-                <script src="$SCRIPTS_FILE_NAME" defer></script>
-                <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-               <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-            </head>
+         <head><meta charset="utf-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1">
+         <title>${toolbarTitle.get()}</title>
+         <link rel="stylesheet" href="$CSS_FILE_NAME">
+         <script src="$SCRIPTS_FILE_NAME" defer></script>
+         <link rel="stylesheet"
+          href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+         script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+          <link rel="stylesheet"
+           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+         </head>
              <body class="light-mode">
             <div class="toolbar">
             <div class='toolbar-status-container'>
@@ -205,16 +206,18 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
             append(
                 """
                  <details>
-                 <summary class="cardHeader">Non Issue Compose Functions ($stableComposablesCount)</summary>
-            """.trimIndent()
+                 <summary class="cardHeader">
+                 Non Issue Compose Functions ($stableComposablesCount)</summary>
+                """.trimIndent()
             )
             append(stableComposables)
             append("</details>")
             append(
                 """
                  <details>
-                 <summary class="cardHeader">With Issue Compose Functions ($unstableComposablesCount)</summary>
-            """.trimIndent()
+                 <summary class="cardHeader">
+                 With Issue Compose Functions ($unstableComposablesCount)</summary>
+                """.trimIndent()
             )
             append(unstableComposables)
 
@@ -222,8 +225,9 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
             append(
                 """
                   <details>
-                    <summary class="cardHeader">Stable Classes ($stableClassesCount)</summary>
-            """.trimIndent()
+                    <summary class="cardHeader">
+                    Stable Classes ($stableClassesCount)</summary>
+                """.trimIndent()
             )
             append(stableClasses)
             append("</details>")
@@ -232,8 +236,9 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
             append(
                 """
                   <details>
-                    <summary class="cardHeader">Unstable Classes ($unStableClassesCount)</summary>
-            """.trimIndent()
+                    <summary class="cardHeader">
+                    Unstable Classes ($unStableClassesCount)</summary>
+                """.trimIndent()
             )
             append(unStableClasses)
             append("</details>")
@@ -242,7 +247,7 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
                 """
                   <details>
                     <summary class="cardHeader">Statistics</summary>
-            """.trimIndent()
+                """.trimIndent()
             )
             append(overallStatistics)
             append(detailedStatistics)
@@ -256,7 +261,7 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
         return buildString {
             val id = "overAll"
             val cardColor = "cardGreen"
-            val sectionId = "section-class-${id}"
+            val sectionId = "section-class-$id"
 
             append("<div class='$cardColor'>\n")
             append("<div class='card-header' onclick=\"toggleSection('$sectionId')\">\n")
@@ -270,7 +275,7 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
 
             var index = 1
             for ((key, value) in data) {
-                append("<tr><td>${index}</td><td>${key}</td><td>${value}</td></tr>\n")
+                append("<tr><td>$index</td><td>$key</td><td>$value</td></tr>\n")
                 index++
             }
 
@@ -285,11 +290,13 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
         composables: List<ComposableDetail>,
         id: String
     ): String {
-
         val htmlContent = buildString {
             composables.forEachIndexed { index, composable ->
-                val cardColor =
-                    if (composable.isSkippable && composable.isRestartable) "cardGreen" else "cardRed"
+                val cardColor = if (composable.isSkippable && composable.isRestartable) {
+                    "cardGreen"
+                } else {
+                    "cardRed"
+                }
                 val sectionId = "section-compose-${index + 1}-$id"
 
                 append("<div class='$cardColor'>\n")
@@ -299,14 +306,36 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
                 append("</div>\n")
                 append("<div id='$sectionId' class='collapsed-content'>\n")
 
-                val isSkippableColor =
-                    if (composable.isSkippable) "restartable-skippable" else "non-restartable-skippable"
-                val isRestartableColor =
-                    if (composable.isRestartable) "restartable-skippable" else "non-restartable-skippable"
+                val isSkippableColor = if (composable.isSkippable) {
+                    "restartable-skippable"
+                } else {
+                    "non-restartable-skippable"
+                }
+                val isRestartableColor = if (composable.isRestartable) {
+                    "restartable-skippable"
+                } else {
+                    "non-restartable-skippable"
+                }
 
                 append("<div class='status-container'>\n")
-                append("<span class='status $isSkippableColor'>${if (composable.isSkippable) "Skippable" else "Non Skippable"}</span>\n")
-                append("<span class='status $isRestartableColor'>${if (composable.isRestartable) "Restartable" else "Non Restartable"}</span>\n")
+                append(
+                    "<span class='status $isSkippableColor'>${
+                    if (composable.isSkippable) {
+                        "Skippable"
+                    } else {
+                        "Non Skippable"
+                    }
+                    }</span>\n"
+                )
+                append(
+                    "<span class='status $isRestartableColor'>${
+                    if (composable.isRestartable) {
+                        "Restartable"
+                    } else {
+                        "Non Restartable"
+                    }
+                    }</span>\n"
+                )
                 append("</div>\n")
 
                 if (composable.params.isNotEmpty()) {
@@ -317,9 +346,17 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
                         append("<tr>\n")
                         append("<td>${paramIndex + 1}</td>\n")
                         when (param.stability) {
-                            Stability.STABLE -> append("<td class='condition-stable'>STABLE</td>\n")
-                            Stability.UNSTABLE -> append("<td class='condition-unstable'>UNSTABLE</td>\n")
-                            Stability.MISSING -> append("<td class='condition-missing'>MISSING</td>\n")
+                            Stability.STABLE -> {
+                                append("<td class='condition-stable'>STABLE</td>\n")
+                            }
+
+                            Stability.UNSTABLE -> {
+                                append("<td class='condition-unstable'>UNSTABLE</td>\n")
+                            }
+
+                            Stability.MISSING -> {
+                                append("<td class='condition-missing'>MISSING</td>\n")
+                            }
                         }
                         append("<td>${escapeHtml(param.name)}</td>\n")
                         append("<td>${escapeHtml(param.type)}</td>\n")
@@ -351,10 +388,16 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
                 append("</div>\n")
                 append("<div id='$sectionId' class='collapsed-content'>\n")
 
-                val isStable =
-                    if (item.stability == Stability.STABLE) "restartable-skippable" else "non-restartable-skippable"
-                val isRuntimeStable =
-                    if (item.runtimeStability == Stability.STABLE) "restartable-skippable" else "non-restartable-skippable"
+                val isStable = if (item.stability == Stability.STABLE) {
+                    "restartable-skippable"
+                } else {
+                    "non-restartable-skippable"
+                }
+                val isRuntimeStable = if (item.runtimeStability == Stability.STABLE) {
+                    "restartable-skippable"
+                } else {
+                    "non-restartable-skippable"
+                }
 
                 val runtimeStability = when (item.runtimeStability) {
                     Stability.STABLE -> "Runtime Stable"
@@ -364,7 +407,15 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
                 }
 
                 append("<div class='status-container'>\n")
-                append("<span class='status $isStable'>${if (item.stability == Stability.STABLE) "Stable" else "UNSTABLE"}</span>\n")
+                append(
+                    "<span class='status $isStable'>${
+                    if (item.stability == Stability.STABLE) {
+                        "Stable"
+                    } else {
+                        "UNSTABLE"
+                    }
+                    }</span>\n"
+                )
                 append("<span class='status $isRuntimeStable'>$runtimeStability</span>\n")
                 append("</div>\n")
                 if (item.classDetailFields.isNotEmpty()) {
@@ -375,9 +426,17 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
                         append("<tr>\n")
                         append("<td>${paramIndex + 1}</td>\n")
                         when (Stability.fromValue(param.status)) {
-                            Stability.STABLE -> append("<td class='condition-stable'>STABLE</td>\n")
-                            Stability.UNSTABLE -> append("<td class='condition-unstable'>UNSTABLE</td>\n")
-                            Stability.MISSING -> append("<td class='condition-missing'>MISSING</td>\n")
+                            Stability.STABLE -> {
+                                append("<td class='condition-stable'>STABLE</td>\n")
+                            }
+
+                            Stability.UNSTABLE -> {
+                                append("<td class='condition-unstable'>UNSTABLE</td>\n")
+                            }
+
+                            Stability.MISSING -> {
+                                append("<td class='condition-missing'>MISSING</td>\n")
+                            }
                         }
                         append("<td>${escapeHtml(param.name)}</td>\n")
                         append("<td>${escapeHtml(param.type)}</td>\n")
@@ -409,4 +468,3 @@ abstract class GenerateComposeHtmlTask : DefaultTask() {
         file.writeText(code)
     }
 }
-

@@ -35,7 +35,6 @@ fun Project.configureKotlinAndroidComposeCompilerReports(android: AndroidCompone
     }
 }
 
-
 fun Project.registerComposeCompilerWithVariant(
     taskName: String,
     descSuffix: String,
@@ -63,13 +62,3 @@ fun Project.getProjectName() =
 
 fun Project.getAssembleDirPath() =
     project.projectDir.relativeTo(rootProject.projectDir).path.replace("/", ":")
-
-
-
-
-
-
-
-
-
-

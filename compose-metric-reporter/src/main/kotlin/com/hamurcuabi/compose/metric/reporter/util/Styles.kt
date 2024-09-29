@@ -1,6 +1,6 @@
 package com.hamurcuabi.compose.metric.reporter.util
 
-const val CSS_FILE_NAME="styles.css"
+const val CSS_FILE_NAME = "styles.css"
 
 val CSS = """
     /* General Styles */

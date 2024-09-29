@@ -1,0 +1,27 @@
+formatting:
+  Indentation:
+    active: true
+  NoWildcardImports:
+    active: false
+complexity:
+  TooManyFunctions:
+    thresholdInClasses: 20
+    ignoreDeprecated: true
+    ignorePrivate: true
+    ignoreOverridden: true
+  LongMethod:
+    active: true
+    threshold: 100
+style:
+  MagicNumber:
+    active: false
+  WildcardImport:
+    active: false
+    excludeImports: ['java.util.*', 'kotlinx.coroutines.*']
+  ReturnCount:
+    active: false
+  LoopWithTooManyJumpStatements:
+    active: false
+performance:
+  SpreadOperator:
+    active: false

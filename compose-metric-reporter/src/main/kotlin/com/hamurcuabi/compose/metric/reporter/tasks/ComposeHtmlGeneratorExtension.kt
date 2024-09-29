@@ -25,7 +25,8 @@ interface ComposeHtmlGeneratorExtension {
     companion object {
 
         fun create(project: Project) = project.extensions.create(
-            PLUGIN_EXT_NAME, ComposeHtmlGeneratorExtension::class.java
+            PLUGIN_EXT_NAME,
+            ComposeHtmlGeneratorExtension::class.java
         ).apply {
             variantName.set("debug")
             outputPath.set("${project.getDirPath()}-compose-metric-reporter")
